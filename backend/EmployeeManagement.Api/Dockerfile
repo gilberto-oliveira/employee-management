@@ -13,7 +13,7 @@ COPY ["backend/EmployeeManagement.Api/EmployeeManagement.Api.csproj", "EmployeeM
 RUN dotnet restore "EmployeeManagement.Api/EmployeeManagement.Api.csproj"
 COPY . .
 
-WORKDIR "./backend/EmployeeManagement.Api"
+WORKDIR /backend/EmployeeManagement.Api
 RUN dotnet build "EmployeeManagement.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
