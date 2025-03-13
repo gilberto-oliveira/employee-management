@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Api", "EmployeeManagement.Api\EmployeeManagement.Api.csproj", "{3DDA917D-C9F2-476A-A1DC-B3DFF29F01DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Api", "backend\EmployeeManagement.Api\EmployeeManagement.Api.csproj", "{3DDA917D-C9F2-476A-A1DC-B3DFF29F01DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Test", "EmployeeManagement.Test\EmployeeManagement.Test.csproj", "{3DFDB00D-7FF1-43AF-A496-77F6B3F4D495}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Test", "backend\EmployeeManagement.Test\EmployeeManagement.Test.csproj", "{3DFDB00D-7FF1-43AF-A496-77F6B3F4D495}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

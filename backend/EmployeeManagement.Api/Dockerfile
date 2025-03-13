@@ -8,12 +8,12 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /
 
-COPY ["EmployeeManagement.Api/EmployeeManagement.Api.csproj", "EmployeeManagement.Api/"]
+COPY ["backend/EmployeeManagement.Api/EmployeeManagement.Api.csproj", "EmployeeManagement.Api/"]
 
 RUN dotnet restore "EmployeeManagement.Api/EmployeeManagement.Api.csproj"
 COPY . .
 
-WORKDIR "./EmployeeManagement.Api"
+WORKDIR "./backend/EmployeeManagement.Api"
 RUN dotnet build "EmployeeManagement.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

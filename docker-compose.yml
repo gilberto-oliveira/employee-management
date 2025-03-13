@@ -17,7 +17,7 @@ services:
     container_name: employee-management-api
     build: 
       context: .
-      dockerfile: EmployeeManagement.Api/Dockerfile
+      dockerfile: backend/EmployeeManagement.Api/Dockerfile
     restart: always
     healthcheck:
       test: curl --fail http://localhost || exit -1
@@ -38,7 +38,7 @@ services:
     image: employee-management-angular
     build:
       context: .
-      dockerfile: EmployeeManagement.Ui/Dockerfile
+      dockerfile: frontend/Dockerfile
     ports:
       - 8080:8080
     depends_on:
