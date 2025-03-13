@@ -1,0 +1,57 @@
+services:
+  employee-management-db:
+    container_name: employee-management-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "EmployeeManagement!2025"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    volumes:
+      - ./init-db:/var/opt/mssql/init-db
+      - ./.sqlserver-data:/var/opt/mssql/data
+    networks:
+      - ntw-default-zone
+  employee-management-api:
+    container_name: employee-management-api
+    build: 
+      context: .
+      dockerfile: EmployeeManagement.Api/Dockerfile
+    restart: always
+    healthcheck:
+      test: curl --fail http://localhost || exit -1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    environment: 
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    ports:
+      - 7001:80
+    depends_on:
+      - employee-management-db
+    networks:
+      - ntw-default-zone
+  employee-management-angular:
+    image: employee-management-angular
+    build:
+      context: .
+      dockerfile: EmployeeManagement.Ui/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - employee-management-api
+    environment:
+      - API_BASE_URL=http://employee-management-api:7001
+    networks:
+      - ntw-default-zone
+
+networks:
+  ntw-default-zone:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    driver: local
