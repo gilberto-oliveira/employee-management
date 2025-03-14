@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using EmployeeManagement.Api.Abstractions;
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EmployeeManagement.Api.Infrastructure.Authentication;
@@ -24,8 +24,8 @@ public class JwtService: IJwtService
         {
             Subject = new ClaimsIdentity([
                 new Claim("id", employee.Id.ToString()),
-                new Claim("doc-number", employee.DocNumber),
-                new Claim(ClaimTypes.Name, $"{employee.FirstName} {employee.LastName}"),
+                new Claim(ClaimTypes.Name, employee.DocNumber),
+                new Claim(ClaimTypes.GivenName, $"{employee.FirstName} {employee.LastName}"),
                 new Claim(ClaimTypes.Role, employee.Role),
                 new Claim(ClaimTypes.Email, employee.Email),
                 new Claim("aud", "employee-management-audience"),

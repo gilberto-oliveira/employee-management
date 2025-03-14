@@ -11,7 +11,7 @@ public sealed record EmployeeCreateRequest(
     List<string> phones, 
     string password, 
     string role,
-    DateOnly dateOfBirth
+    DateTime dateOfBirth
 ) : ICommand<EmployeeCreateCommand>
 {
     public EmployeeCreateCommand ToCommand()

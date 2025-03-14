@@ -1,5 +1,5 @@
 using EmployeeManagement.Api.Abstractions;
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 using EmployeeManagement.Api.Extensions;
 using EmployeeManagement.Api.Features.Auth;
 using EmployeeManagement.Api.Features.GetById;

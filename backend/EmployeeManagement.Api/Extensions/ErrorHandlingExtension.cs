@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using FluentValidation;
+using EmployeeManagement.Api.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
 using EmployeeManagement.Api.Abstractions;
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 

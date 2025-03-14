@@ -1,5 +1,5 @@
 using EmployeeManagement.Api.Abstractions;
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 using EmployeeManagement.Api.Interfaces;
 
 namespace EmployeeManagement.Api.Infrastructure.Authentication;

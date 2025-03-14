@@ -10,6 +10,8 @@ using EmployeeManagement.Api.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation;
+using EmployeeManagement.Api.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +19,15 @@ builder.Logging.AddSimpleConsole();
 builder.Services.AddHealthChecks();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddEmployeeManagementSwagger();
-
 builder.Services.AddProblemDetails();
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(config =>
+    {
+        config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+        config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    });
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
@@ -37,10 +44,8 @@ builder.Services.AddDbContext<IDbContext, EmployeeManagementDbContext>(options =
         b.MigrationsAssembly(typeof(EmployeeManagementDbContext).Assembly.FullName));
 });
 
-builder.Services.AddCors();
-
-builder.Services.AddAuthentication();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 builder.Services
 .AddHttpContextAccessor()
 .AddAuthorization()
@@ -65,23 +70,24 @@ builder.Services
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
-
-app.UseExceptionHandler();
-
-app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHealthChecks("/");
+app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+
+app.UseHealthChecks("/");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseErrorHandling();
 
 app.MapEmployees(APIVersion);
 app.MapWhen(context => context.Request.Path == "/", app => app.Run(context =>

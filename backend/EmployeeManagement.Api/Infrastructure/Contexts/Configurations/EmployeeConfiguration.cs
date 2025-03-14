@@ -1,4 +1,4 @@
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,7 +24,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasData(
-            Employee.Create("Abigobaldo","Magalhães","1234567891","abigo@email.com", new List<string> {"+559191234456"}, "Test!@123456", "Leader")
+            Employee.Create("Abigobaldo","Magalhães","1234567891","abigo@email.com", new List<string> {"+559191234456"}, "Test!@123456", "Leader", DateTime.Now.AddYears(-20))
         );
     }
 }

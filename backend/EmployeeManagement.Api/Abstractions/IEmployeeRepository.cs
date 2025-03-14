@@ -1,4 +1,4 @@
-using EmployeeManagement.Api.Domain.Models;
+using EmployeeManagement.Api.Models;
 
 namespace EmployeeManagement.Api.Abstractions;
 
