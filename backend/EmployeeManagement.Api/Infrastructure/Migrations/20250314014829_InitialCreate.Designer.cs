@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManagement.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(EmployeeManagementDbContext))]
-    [Migration("20250314002757_InitialCreate")]
+    [Migration("20250314014829_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -80,13 +80,13 @@ namespace EmployeeManagement.Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("eaad4e8b-2a96-4a22-9d61-efaaf6dbd7f2"),
-                            DateOfBirth = new DateTime(2005, 3, 13, 21, 27, 56, 948, DateTimeKind.Local).AddTicks(8219),
+                            Id = new Guid("46eabbae-eff5-4e2a-97de-703795266c32"),
+                            DateOfBirth = new DateTime(2005, 3, 13, 22, 48, 29, 246, DateTimeKind.Local).AddTicks(9841),
                             DocNumber = "1234567891",
-                            Email = "test@email.com",
-                            FirstName = "Test",
-                            LastName = "1",
-                            Password = "test!@123456",
+                            Email = "abigo@email.com",
+                            FirstName = "Abigobaldo",
+                            LastName = "Magalhães",
+                            Password = "Test!@123456",
                             Phones = "[\"\\u002B559191234456\"]",
                             Role = "Leader"
                         });

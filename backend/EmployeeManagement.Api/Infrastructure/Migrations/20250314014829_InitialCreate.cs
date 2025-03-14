@@ -39,7 +39,7 @@ namespace EmployeeManagement.Api.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "DateOfBirth", "DocNumber", "Email", "FirstName", "LastName", "ManagerId", "Password", "Phones", "Role" },
-                values: new object[] { new Guid("eaad4e8b-2a96-4a22-9d61-efaaf6dbd7f2"), new DateTime(2005, 3, 13, 21, 27, 56, 948, DateTimeKind.Local).AddTicks(8219), "1234567891", "test@email.com", "Test", "1", null, "test!@123456", "[\"\\u002B559191234456\"]", "Leader" });
+                values: new object[] { new Guid("46eabbae-eff5-4e2a-97de-703795266c32"), new DateTime(2005, 3, 13, 22, 48, 29, 246, DateTimeKind.Local).AddTicks(9841), "1234567891", "abigo@email.com", "Abigobaldo", "Magalhães", null, "Test!@123456", "[\"\\u002B559191234456\"]", "Leader" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DocNumber",

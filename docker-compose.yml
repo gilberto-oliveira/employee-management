@@ -9,7 +9,6 @@ services:
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
     volumes:
-      - ./init-db:/var/opt/mssql/init-db
       - ./.sqlserver-data:/var/opt/mssql/data
     networks:
       - ntw-default-zone

@@ -4,6 +4,7 @@ namespace EmployeeManagement.Api.Abstractions;
 
 public interface IEmployeeRepository : IBaseRepository<Employee>
 {
-    Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken);
+    Task<bool> ExistsByDocAsync(string docNumber, CancellationToken cancellationToken);
     Task<(int Total, IEnumerable<Employee> Items)> GetPaginatedAsync(string? nameOrDocNumber, int page, int limit, CancellationToken cancellationToken);
+    Task<Employee?> GetByDocNumberAndPasswordAsync(string docNumber, string password, CancellationToken cancellationToken);
 }

@@ -10,9 +10,16 @@ public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     public EmployeeRepository(IDbContext dbContext) : base(dbContext)
     { }
 
-    public Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken)
+    public Task<bool> ExistsByDocAsync(string docNumber, CancellationToken cancellationToken)
     {
-        return DbSet.AnyAsync(e => e.Email == email, cancellationToken);
+        return DbSet.AnyAsync(e => e.DocNumber == docNumber, cancellationToken);
+    }
+
+    public Task<Employee?> GetByDocNumberAndPasswordAsync(string docNumber, string password, CancellationToken cancellationToken)
+    {
+         return DbSet
+            .Where(u => u.DocNumber == docNumber && u.Password == password)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<(int Total, IEnumerable<Employee> Items)> GetPaginatedAsync(string? nameOrDocNumber, int page, int limit, CancellationToken cancellationToken)
