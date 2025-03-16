@@ -22,7 +22,8 @@ public class EmployeeCreateCommandHandlerTest
             new List<string> { "1234567890" }, 
             "password", 
             "Employee", 
-            new DateTime(1990, 1, 1)
+            new DateTime(1990, 1, 1),
+            Guid.NewGuid()
         );
 
         repository.ExistsByDocAsync(command.docNumber, Arg.Any<CancellationToken>())
@@ -50,7 +51,8 @@ public class EmployeeCreateCommandHandlerTest
             new List<string> { "1234567890" }, 
             "password", 
             "Employee", 
-            new DateTime(1990, 1, 1)
+            new DateTime(1990, 1, 1),
+            Guid.NewGuid()
         );
 
         repository.ExistsByDocAsync(command.docNumber, Arg.Any<CancellationToken>())
@@ -79,7 +81,8 @@ public class EmployeeCreateCommandHandlerTest
             new List<string> { "1234567890" }, 
             "password", 
             "Employee", 
-            new DateTime(1990, 1, 1)
+            new DateTime(1990, 1, 1),
+            Guid.NewGuid()
         );
 
         repository.ExistsByDocAsync(command.docNumber, Arg.Any<CancellationToken>())
