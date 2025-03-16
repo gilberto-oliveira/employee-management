@@ -24,7 +24,7 @@ The project `EmployeeManagement.Api` contains four main folders for better maint
 1. **Features**: Contains API endpoints, commanders, queries and services (handlers).
 2. **Models**: Houses domain models.
 3. **Abstractions**: Contains the interfaces and helpers classes.
-4. **Infrastructure**: Manages the database context and repository 
+4. **Infrastructure**: Manages the database context, logging and repository 
 implementations.
 
 ### Known Issues
@@ -56,12 +56,6 @@ Both frontend and backend can run in Docker containers. Ensure **Docker** is ins
 
 ```bash
 docker-compose up -d
-```
-
-You need to apply the current migration in the Database, go to the `EmployeeManagement.Api` folder and type in the terminal:
-
-```bash
-dotnet ef database update
 ```
 
 For testing, the data below can be used:
