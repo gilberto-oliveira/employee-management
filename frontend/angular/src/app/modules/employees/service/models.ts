@@ -53,7 +53,7 @@ export function convertEmployeeCreateRequestToUpdateOperations(
 ): Operation[] {
     const operations: Operation[] = [];
     Object.entries(employee)
-        .filter(([key]) => key !== 'id' && key !== 'phones')
+        .filter(([key]) => key !== 'id' && key !== 'phones' && key !== 'managerId')
         .forEach(([key, value]) => {
             if (value !== null) {
                 operations.push({
