@@ -11,11 +11,12 @@ public sealed record EmployeeCreateRequest(
     List<string> phones, 
     string password, 
     string role,
-    DateTime dateOfBirth
+    DateTime dateOfBirth,
+    Guid managerId
 ) : ICommand<EmployeeCreateCommand>
 {
     public EmployeeCreateCommand ToCommand()
     {
-        return new(firstName, lastName, docNumber, email, phones, password, role, dateOfBirth);
+        return new(firstName, lastName, docNumber, email, phones, password, role, dateOfBirth, managerId);
     }
 }

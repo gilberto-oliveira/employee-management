@@ -22,7 +22,7 @@ public class EmployeeCreateCommandHandler : ICommandHandler<EmployeeCreateComman
             return Result.Failure<Guid>("Employee with this docNumber already exists", "Employee");
 
         var employee = Employee.Create(request.firstName, request.lastName, 
-            request.docNumber, request.email, request.phones, request.password, request.role, request.dateOfBirth);
+            request.docNumber, request.email, request.phones, request.password, request.role, request.dateOfBirth, request.managerId);
 
         _repository.Add(employee);
 

@@ -24,7 +24,7 @@ public class Employee
 
     public string Role { get; set; } = string.Empty;
 
-    public static Employee Create(string firstName, string lastName, string docNumber, string email, List<string> phones, string password, string role, DateTime dateOfBirth)
+    public static Employee Create(string firstName, string lastName, string docNumber, string email, List<string> phones, string password, string role, DateTime dateOfBirth, Guid? managerId = null)
     {
         var employee = new Employee();
         employee.Id = Guid.NewGuid();
@@ -36,6 +36,7 @@ public class Employee
         employee.Phones = phones;
         employee.Password = password;
         employee.Role = role;
+        employee.ManagerId = managerId;
         return employee;
     }
 }

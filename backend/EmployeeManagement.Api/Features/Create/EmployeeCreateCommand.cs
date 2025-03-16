@@ -10,4 +10,5 @@ public record EmployeeCreateCommand(
     List<string> phones, 
     string password, 
     string role,
-    DateTime dateOfBirth) : ICommand<Guid>;
+    DateTime dateOfBirth,
+    Guid managerId) : ICommand<Guid>;

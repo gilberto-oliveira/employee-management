@@ -1,0 +1,40 @@
+/* Center the login form */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.p-field {
+    margin-bottom: 16px;
+}
+
+.p-error {
+    color: red;
+    font-size: 12px;
+}
+
+button {
+    width: 100%;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

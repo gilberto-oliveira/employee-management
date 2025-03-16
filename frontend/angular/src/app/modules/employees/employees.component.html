@@ -1,0 +1,179 @@
+<div class="card">
+    <p-toast />
+    <p-toolbar styleClass="mb-6">
+        <ng-template #start>
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+        </ng-template>
+        <ng-template #end *ngIf="isAuthenticated">
+            Olá {{ loggedEmployee.given_name }}
+            <p-button label="Logout" icon="pi pi-sign-out" text (click)="logout()" />
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt 
+        [value]="employees" 
+        [rows]="rows"
+        [loading]="loading"
+        [columns]="cols"
+        [paginator]="true"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true" 
+        dataKey="id" 
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+        [lazy]="true" 
+        (onLazyLoad)="lazyLoad($event)"
+        [rowsPerPageOptions]="[10, 30, 50]">
+        <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <h2 class="m-0">Manage Employees</h2>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" [(ngModel)]="searchTerm" placeholder="Search..." (keydown)="onSearchChange()" />
+                </p-iconfield>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th style="min-width: 8rem">FirstName</th>
+                <th style="min-width:8rem">
+                    LastName
+                </th>
+                <th style="min-width: 10rem">
+                    Email
+                </th>
+                <th style="min-width:10rem">
+                    Doc Number
+                </th>
+                <th style="min-width: 12rem">
+                    Phones
+                </th>
+                <th style="min-width: 8rem">
+                    Manager
+                </th>
+                <th style="min-width: 8rem">
+                    Date Of Birth
+                </th>
+                <th style="min-width: 8rem">
+                    Role
+                </th>
+                <th style="min-width: 8rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-employee>
+            <tr>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.docNumber }}</td>
+                <td>
+                    {{ employee.phones }}
+                </td>
+                <td>
+                    {{ employee.manager?.firstName }} {{ employee.manager?.lastName }}
+                </td>
+                <td>{{ employee.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ employee.role }}</td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editEmployee(employee)" />
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteEmployee(employee)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #summary>
+            <div class="flex items-center justify-between">In total there are {{ dt.totalRecords }}
+                employees.</div>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="employeeDialog" [style]="{ width: '550px' }" header="Employee Details" [modal]="true">
+        <ng-template #content>
+            <div class="flex flex-col gap-6">
+                <div>
+                    <label for="firstName" class="block font-bold mb-3">FirstName</label>
+                    <input type="text" pInputText id="firstName" [(ngModel)]="employee.firstName" required autofocus
+                        fluid />
+                    <small class="text-red-500" *ngIf="submitted && !employee.firstName">FirstName is required.</small>
+                </div>
+
+                <div>
+                    <label for="lastName" class="block font-bold mb-3">LastName</label>
+                    <input type="lastName" pInputText id="lastName" [(ngModel)]="employee.lastName" required fluid />
+                    <small class="text-red-500" *ngIf="submitted && !employee.lastName">LastName is required.</small>
+                </div>
+
+                <div>
+                    <label for="email" class="block font-bold mb-3">Email</label>
+                    <input type="email" pInputText id="email" [(ngModel)]="employee.email" required fluid />
+                    <small class="text-red-500" *ngIf="submitted && !employee.email">Email is required.</small>
+                </div>
+
+                <div>
+                    <label for="docNumber" class="block font-bold mb-3">Doc Number</label>
+                    <input type="text" pInputText id="docNumber" [(ngModel)]="employee.docNumber" required fluid />
+                    <small class="text-red-500" *ngIf="submitted && !employee.docNumber">Doc Number is required.</small>
+                </div>
+
+                <br>
+
+                <div>
+                    <div *ngFor="let phoneNumber of phones; let i = index; trackBy: trackByFn">
+                        <input [(ngModel)]="phones[i]" name="phoneNumber{{i}}" id="phoneNumber{{i}}" placeholder="Enter phone number"
+                            pInputText required type="text" />
+                        &nbsp;
+                        <p-button icon="pi pi-minus" severity="danger" (click)="removePhoneNumber(i)"
+                            *ngIf="phones.length > 0" />
+                    </div>
+
+                    <br>
+
+                    <p-button label="Add Phone Number" icon="pi pi-plus" (click)="addPhoneNumber()" />
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="dateOfBirth" class="block font-bold mb-3">Date Of Birth</label>
+                    <br>
+                    <p-datepicker [inline]="true" [(ngModel)]="dateOfBirth" [iconDisplay]="'input'" [showIcon]="true" inputId="dateOfBirth" />
+                    <br>
+                    <small class="text-red-500" *ngIf="submitted && !dateOfBirth">Date Of Birth is
+                        required.</small>
+                </div>
+
+                <br>
+                
+                <div>
+                    <label for="role" class="block font-bold mb-3">Role</label>
+                    <p-select [(ngModel)]="employee.role" inputId="role" [options]="employeeRoles" optionLabel="label"
+                        placeholder="Select a Role" fluid optionValue="value" />
+                    <small class="text-red-500" *ngIf="submitted && !employee.role">Role is
+                        required.</small>
+                </div>
+
+                <div>
+                    <label for="password" class="block font-bold mb-3">Password</label>
+                    <input type="password" pInputText id="password" [(ngModel)]="employee.password" required fluid />
+                    <small class="text-red-500" *ngIf="submitted && !employee.password">Password is required.</small>
+                </div>
+
+                <div>
+                    <label for="passwordConfirm" class="block font-bold mb-3">Password Confirm</label>
+                    <input type="password" pInputText id="passwordConfirm" [(ngModel)]="passwordRepeated" required
+                        fluid />
+                    <small class="text-red-500" *ngIf="submitted && !passwordRepeated">Password Confirm is
+                        required.</small>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #footer>
+            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" (click)="saveEmployee()" />
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '500px' }" />
+</div>

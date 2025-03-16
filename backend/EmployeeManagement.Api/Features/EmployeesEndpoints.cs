@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace EmployeeManagement.Api.Features;
 
@@ -89,10 +90,6 @@ public static class EmployeesEndpoints
         if (httpContext.HttpContext is null || httpContext.HttpContext.User is null)
             return TypedResults.BadRequest("This is an invalid request!");
 
-        var canFilter = httpContext.HttpContext.User.IsInRole("Admin");
-        if (!canFilter)
-        { search = null; }
-
         var result = await mediator.Send(new ListAllEmployeesQuery(search, page ?? 1, limit ?? 10), cancellationToken);
         if (result.IsFailure)
             return TypedResults.ValidationProblem(result.ToProblem());
@@ -115,10 +112,22 @@ public static class EmployeesEndpoints
 
     public static async Task<Results<ValidationProblem, BadRequest<string>, CreatedAtRoute>> PostAsync(
         [FromServices] IMediator mediator,
+        [FromServices] IHttpContextAccessor httpContext,
         HttpRequest httpRequest,
         [FromBody] EmployeeCreateRequest request
     )
     {
+        var currentUserRole = httpContext?.HttpContext?.User.Claims
+            .Where(c => c.Type == ClaimTypes.Role)
+            .Select(c => c.Value)       
+            .FirstOrDefault()!;
+
+        if (!CanCreateANewEmployee(currentUserRole, request.role)) {
+            return TypedResults.ValidationProblem(new Dictionary<string, string[]> {
+                 { "operations", ["You cannot create a user with higher permissions than the current one." ] }
+                });
+        }
+        
         var command = request.ToCommand();
 
         var result = await mediator.Send(command);
@@ -171,10 +180,26 @@ public static class EmployeesEndpoints
         {
             i.op,
             i.path,
-            i.from,
             value = i.value?.ToString()
         }).ToList();
         var jsonOperations = JsonConvert.SerializeObject(items);
         return JsonConvert.DeserializeObject<JsonPatchDocument<T>>(jsonOperations);
+    }
+
+    public static bool CanCreateANewEmployee(string currentEmployeeRole, string newEmployeeRole)
+    {
+        var roleHierarchy = new Dictionary<string, int>
+        {
+            { "Employee", 1 },
+            { "Leader", 2 },
+            { "Director", 3 }
+        };
+
+        if (!roleHierarchy.ContainsKey(currentEmployeeRole) || !roleHierarchy.ContainsKey(newEmployeeRole))
+        {
+            throw new ArgumentException("Invalid role specified.");
+        }
+
+        return roleHierarchy[newEmployeeRole] <= roleHierarchy[currentEmployeeRole];
     }
 }
