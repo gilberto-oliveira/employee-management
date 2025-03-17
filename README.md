@@ -55,7 +55,8 @@ To install the Employment Management Application:
 Both frontend and backend can run in Docker containers. Ensure **Docker** is installed, then use the provided `docker-compose.yml` file to start the project:
 
 ```bash
-docker-compose up -d
+  docker-compose build && 
+  docker-compose up -d
 ```
 
 For testing, the data below can be used:
@@ -72,3 +73,20 @@ curl -X 'POST' \
 ```
 
 The frontend application is hosted in **http://localhost:8080/auth/login** and the backend in **http://localhost:7001/swagger/index.html**
+
+### Known Issues
+- The container instance `employee-management-db` don´t have permission to access the **.sql-server-data** folder. To fix it, type in the terminal:
+
+```bash
+  docker-compose down
+```
+
+```bash
+  sudo chmod -R 777 .sqlserver-data &&
+  sudo chown -R $(whoami):$(whoami) .sqlserver-data &&
+  sudo chown -R 10001:10001 .sqlserver-data
+```
+
+```bash
+  docker-compose up -d
+```
